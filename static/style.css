@@ -1,0 +1,350 @@
+:root {
+    --primary-color: #4A90E2; /* Blue */
+    --secondary-color: #50E3C2; /* Green */
+    --accent-color: #F5A623; /* Orange */
+    --background-light: #F0F2F5; /* Light Grey */
+    --background-dark: #333C4E; /* Dark Grey Blue */
+    --text-color-dark: #333333;
+    --text-color-light: #FFFFFF;
+    --border-color: #D8D8D8;
+    --grid-line-thick: #666666;
+    --grid-line-thin: #BBBBBB;
+    --cell-fixed-bg: #E0E6ED;
+    --cell-hover-bg: #D1E3F4;
+    --cell-selected-bg: #A3D2F7;
+    --cell-error-bg: #FFC0CB;
+    --cell-blink-bg: #FFE08C; /* For blinking */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-light);
+    color: var(--text-color-dark);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: var(--text-color-light);
+    width: 100%;
+    max-width: 900px;
+    padding: 15px 20px;
+    text-align: center;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+    letter-spacing: 1px;
+}
+
+.branding {
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 5px;
+}
+
+.control-panel {
+    background-color: var(--text-color-light);
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    max-width: 900px;
+    width: 100%;
+}
+
+.control-panel label {
+    font-weight: bold;
+    color: var(--text-color-dark);
+}
+
+.control-panel select,
+.control-panel button {
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.control-panel select {
+    background-color: var(--background-light);
+    color: var(--text-color-dark);
+}
+
+.control-panel button {
+    background-color: var(--accent-color);
+    color: var(--text-color-light);
+    border-color: var(--accent-color);
+    font-weight: bold;
+}
+
+.control-panel button:hover {
+    background-color: #E2941E; /* Darker accent */
+    border-color: #E2941E;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.timer-display {
+    background-color: var(--background-dark);
+    color: var(--text-color-light);
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    min-width: 120px;
+    text-align: center;
+}
+
+.sudoku-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#sudoku-grid {
+    display: grid;
+    border: 3px solid var(--grid-line-thick);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+    background-color: var(--text-color-light);
+}
+
+.grid-4x4 {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+}
+
+.grid-9x9 {
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+}
+
+.sudoku-cell {
+    width: 40px; /* Adjust as needed */
+    height: 40px; /* Adjust as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    border: 1px solid var(--grid-line-thin);
+    box-sizing: border-box;
+    transition: background-color 0.1s ease;
+    color: var(--text-color-dark);
+    position: relative; /* For blinking effect */
+}
+
+/* Styling for 9x9 grid main blocks */
+#sudoku-grid.grid-9x9 .sudoku-cell:nth-child(3n) {
+    border-right: 2px solid var(--grid-line-thick);
+}
+#sudoku-grid.grid-9x9 .sudoku-cell:nth-child(n):nth-child(27n + 1),
+#sudoku-grid.grid-9x9 .sudoku-cell:nth-child(n):nth-child(27n + 2),
+#sudoku-grid.grid-9x9 .sudoku-cell:nth-child(n):nth-child(27n + 3) {
+    border-top: none;
+}
+
+#sudoku-grid.grid-9x9 .sudoku-cell:nth-child(n+1):nth-child(-n+9) {
+    border-top: none; /* First row */
+}
+
+#sudoku-grid.grid-9x9 .sudoku-cell:nth-child(n+19):nth-child(-n+27),
+#sudoku-grid.grid-9x9 .sudoku-cell:nth-child(n+46):nth-child(-n+54),
+#sudoku-grid.grid-9x9 .sudoku-cell:nth-child(n+73):nth-child(-n+81) {
+    border-bottom: 2px solid var(--grid-line-thick);
+}
+
+#sudoku-grid.grid-9x9 .sudoku-cell:nth-child(3n+1) {
+    clear: left;
+}
+#sudoku-grid.grid-9x9 .sudoku-cell:nth-child(n+1):nth-child(-n+9),
+#sudoku-grid.grid-9x9 .sudoku-cell:nth-child(n+19):nth-child(-n+27),
+#sudoku-grid.grid-9x9 .sudoku-cell:nth-child(n+28):nth-child(-n+36),
+#sudoku-grid.grid-9x9 .sudoku-cell:nth-child(n+46):nth-child(-n+54),
+#sudoku-grid.grid-9x9 .sudoku-cell:nth-child(n+55):nth-child(-n+63),
+#sudoku-grid.grid-9x9 .sudoku-cell:nth-child(n+73):nth-child(-n+81) {
+    border-bottom-width: 2px; /* Thick horizontal lines for 3x3 blocks */
+}
+
+/* Override the last cell of every block to have thick right border */
+#sudoku-grid.grid-9x9 .sudoku-cell:nth-child(3n) {
+    border-right-width: 2px; /* Thick vertical lines for 3x3 blocks */
+}
+#sudoku-grid.grid-9x9 .sudoku-cell:nth-child(9n) {
+    border-right-width: 1px; /* Reset for end of grid rows */
+}
+
+/* Styling for 4x4 grid main blocks */
+#sudoku-grid.grid-4x4 .sudoku-cell:nth-child(2n) {
+    border-right: 2px solid var(--grid-line-thick);
+}
+#sudoku-grid.grid-4x4 .sudoku-cell:nth-child(4n) {
+    border-right: 1px solid var(--grid-line-thin);
+}
+#sudoku-grid.grid-4x4 .sudoku-cell:nth-child(n+1):nth-child(-n+4) {
+    border-top: none; /* First row */
+}
+
+#sudoku-grid.grid-4x4 .sudoku-cell:nth-child(n+9):nth-child(-n+12) {
+    border-bottom: 2px solid var(--grid-line-thick);
+}
+
+
+.sudoku-cell.fixed {
+    background-color: var(--cell-fixed-bg);
+    font-weight: bold;
+    color: var(--text-color-dark);
+}
+
+.sudoku-cell.editable {
+    cursor: pointer;
+    color: var(--primary-color);
+}
+
+.sudoku-cell.editable:hover {
+    background-color: var(--cell-hover-bg);
+}
+
+.sudoku-cell.selected {
+    background-color: var(--cell-selected-bg);
+}
+
+.sudoku-cell.error {
+    background-color: var(--cell-error-bg);
+    color: white;
+}
+
+/* Blinking effect */
+.sudoku-cell.blinking {
+    animation: blink-animation 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes blink-animation {
+    from { background-color: var(--cell-blink-bg); }
+    to { background-color: transparent; }
+}
+
+.messages {
+    margin-top: 20px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    background-color: #FFF3CD; /* Light yellow for info */
+    color: #664D03; /* Dark yellow for text */
+    border: 1px solid #FFEBAA;
+    min-height: 20px;
+    width: 100%;
+    max-width: 900px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+footer {
+    margin-top: auto; /* Pushes footer to the bottom */
+    padding: 15px 20px;
+    width: 100%;
+    max-width: 900px;
+    text-align: center;
+    color: var(--text-color-dark);
+    font-size: 0.9em;
+    background-color: var(--background-light);
+    border-top: 1px solid var(--border-color);
+    border-radius: 0 0 8px 8px;
+    box-sizing: border-box;
+}
+
+/* Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: var(--background-light);
+    margin: 5% auto; /* 5% from the top and centered */
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    width: 90%; /* Could be more or less, depending on screen size */
+    max-width: 600px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    position: relative;
+    color: var(--text-color-dark);
+}
+
+/* The Close Button */
+.close-button {
+    color: var(--text-color-dark);
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: var(--accent-color);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content h2 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+#history-list {
+    max-height: 400px; /* Limit height and add scroll */
+    overflow-y: auto;
+    padding-right: 10px; /* Space for scrollbar */
+}
+
+.history-record {
+    background-color: var(--text-color-light);
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease;
+}
+
+.history-record p {
+    margin: 5px 0;
+    font-size: 0.95em;
+}
+
+.history-record p strong {
+    color: var(--primary-color);
+}
