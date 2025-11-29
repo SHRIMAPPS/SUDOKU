@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Game - Skill Hub Institute</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Sudoku Challenge</h1>
+        <p class="branding">Powered by SHRIM ENDEAVOURS - Skill Hub Institute</p>
+    </header>
+
+    <div class="control-panel">
+        <div class="control-row">
+            <label for="username">Username:</label>
+            <input type="text" id="username" value="Player1" class="player-name-input">
+
+            <label for="grid-size">Grid Size:</label>
+            <select id="grid-size">
+                <option value="4">4x4</option>
+                <option value="9" selected>9x9</option>
+            </select>
+
+            <label for="difficulty">Difficulty:</label>
+            <select id="difficulty">
+                <option value="easy">Easy</option>
+                <option value="medium" selected>Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+        </div>
+
+        <div class="control-row">
+            <button id="generate-btn">Generate Sudoku</button>
+            <button id="check-solution-btn">Check Solution</button>
+            <button id="undo-btn">Undo</button>
+            <button id="redo-btn">Redo</button>
+            <button id="view-history-btn">View History</button>
+        </div>
+
+        <div class="timer-panel control-row">
+            <div class="timer-display">Time: <span id="timer">00:00</span></div>
+            <div class="timer-display">Best Time: <span id="best-time">--:--</span></div>
+        </div>
+    </div>
+
+    <main class="sudoku-container">
+        <div id="sudoku-grid"></div>
+    </main>
+
+    <div id="messages" class="messages"></div>
+
+    <div id="game-history-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Game History</h2>
+            <div id="history-list"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 Skill Hub Institute</p>
+    </footer>
+
+    <script src="static/script.js"></script>
+</body>
+</html>
